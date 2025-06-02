@@ -9,21 +9,30 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public CorsWebFilter corsWebFilter() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
+	@Bean
+	public CorsWebFilter corsWebFilter() {
+	    System.out.println("CorsWebFilter foi criado!");
 
-        // Mais flexível que addAllowedOrigin
-        corsConfig.addAllowedOriginPattern("https://stepmap-sm.web.app");
-        
-        corsConfig.addAllowedMethod("*");   // libera todos métodos
-        corsConfig.addAllowedHeader("*");   // libera todos headers
-        corsConfig.setAllowCredentials(true);  // se não usar credenciais pode ser false
+	    CorsConfiguration corsConfig = new CorsConfiguration();
+	    
+	    // Permite qualquer origem (útil para testes)
+	    corsConfig.addAllowedOriginPattern("*");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
+	    // Permite qualquer método (GET, POST, PUT, DELETE, OPTIONS etc)
+	    corsConfig.addAllowedMethod("*");
 
-        System.out.println("CorsWebFilter carregado com origem: https://stepmap-sm.web.app");
-        return new CorsWebFilter(source);
-    }
+	    // Permite qualquer header
+	    corsConfig.addAllowedHeader("*");
+	    
+	    // Não permite envio de credenciais (cookies, auth headers)
+	    corsConfig.setAllowCredentials(false);
+
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    
+	    // Aplica essa config para todas as rotas da API
+	    source.registerCorsConfiguration("/**", corsConfig);
+
+	    System.out.println("CorsWebFilter carregado com origem: * (aberto para testes)");
+	    return new CorsWebFilter(source);
+	}
 }
