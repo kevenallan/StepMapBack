@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,11 @@ public class RotaController {
         this.webClient = webClientBuilder.baseUrl("https://api.openrouteservice.org").build();
     }
 
+    @GetMapping("/teste")
+    public String teste() {
+    	return "Teste Render.com";
+    }
+    
     @PostMapping("/v2/directions/driving-car/geojson")
     public Mono<ResponseEntity<Object>> obterRota(@RequestBody Map<String, Object> requestBody) {
         return webClient.post()
